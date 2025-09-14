@@ -381,8 +381,8 @@ Connect a web application to MySQL via <code>localhost:3307</code>
 ## 11. 👤 Author & References
 
 <ul>
-  <li><b>Author:</b> [Your Name]</li>
-  <li><b>Project GitHub:</b> <a href="https://github.com/your-username/project-infra-simple" target="_blank">https://github.com/your-username/project-infra-simple</a></li>
+  <li><b>Author:</b> OMAR DBAA</li>
+  <li><b>Project GitHub:</b> <a href="https://github.com/omardbaa/projet-infra" target="_blank">https://github.com/omardbaa/projet-infra</a></li>
 </ul>
 
 <details>

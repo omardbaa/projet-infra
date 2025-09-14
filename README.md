@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🚀 Multi-Machine Infrastructure with Vagrant</h1>
+  <h1>🚀 Infrastructure Multi-Machines avec Vagrant</h1>
   <p>
     <img src="https://img.shields.io/badge/Vagrant-2.2+-blue?logo=vagrant" alt="Vagrant Version" />
     <img src="https://img.shields.io/badge/Ubuntu%20Web%20Server-bionic64-brightgreen?logo=ubuntu" alt="Ubuntu" />
@@ -12,63 +12,62 @@
 ---
 
 <details>
-<summary><strong>📚 Table of Contents</strong></summary>
+<summary><strong>📚 Table des matières</strong></summary>
 
-1. <a href="#1-🎯-project-goals">🎯 Project Goals</a>
-2. <a href="#2-🧱-infrastructure-architecture">🧱 Infrastructure Architecture</a>
-3. <a href="#3-📁-project-structure">📁 Project Structure</a>
-4. <a href="#4-⚙️-vagrantfile-configuration">⚙️ Vagrantfile Configuration</a>
-5. <a href="#5-🔧-automated-provisioning">🔧 Automated Provisioning</a>
-6. <a href="#6-🌐-networking--access">🌐 Networking & Access</a>
-7. <a href="#7-🧪-testing--validation">🧪 Testing & Validation</a>
+1. <a href="#1-🎯-objectifs-du-projet">🎯 Objectifs du Projet</a>
+2. <a href="#2-🧱-architecture-de-linfrastructure">🧱 Architecture de l’Infrastructure</a>
+3. <a href="#3-📁-structure-du-projet">📁 Structure du Projet</a>
+4. <a href="#4-⚙️-configuration-du-vagrantfile">⚙️ Configuration du Vagrantfile</a>
+5. <a href="#5-🔧-provisioning-automatisé">🔧 Provisioning Automatisé</a>
+6. <a href="#6-🌐-réseaux-et-accès">🌐 Réseaux et Accès</a>
+7. <a href="#7-🧪-tests--validation">🧪 Tests & Validation</a>
 8. <a href="#8-📦-distribution-via-vagrant-cloud">📦 Distribution via Vagrant Cloud</a>
-9. <a href="#9-💡-usage-examples">💡 Usage Examples</a>
-10. <a href="#9-1--advanced-usage--tips">9.1 Advanced Usage & Tips</a>
-11. <a href="#10-❓-faq--troubleshooting">❓ FAQ & Troubleshooting</a>
-12. <a href="#11-👤-author--references">👤 Author & References</a>
+9. <a href="#9-💡-exemples-dutilisation">💡 Exemples d’Utilisation</a>
+10. <a href="#10-❓-faq--dépannage">❓ FAQ & Dépannage</a>
+11. <a href="#11-👤-auteur--références">👤 Auteur & Références</a>
 
 </details>
 
 ---
 
-## 1. 🎯 Project Goals
+## 1. 🎯 Objectifs du Projet
 
 <ul>
-  <li>Automatically deploy an infrastructure composed of <b>2 virtual machines</b>:</li>
+  <li>Déployer automatiquement une infrastructure composée de <b>2 machines virtuelles</b> :</li>
   <ul>
-    <li>A <b>web server</b> running <b>Ubuntu</b> with <b>Nginx</b> and a <b>static site cloned from GitHub</b></li>
-    <li>A <b>database server</b> running <b>CentOS</b> with <b>MySQL 8.0</b> and a <code>demo_db</code> database</li>
+    <li>Un <b>serveur web</b> sous <b>Ubuntu</b> avec <b>Nginx</b> et un <b>site statique cloné depuis GitHub</b></li>
+    <li>Un <b>serveur base de données</b> sous <b>CentOS</b> avec <b>MySQL 8.0</b> et une base <code>demo_db</code></li>
   </ul>
-  <li>Provide a packaged and reusable infrastructure via <b>Vagrant Cloud</b></li>
+  <li>Fournir une infrastructure packagée et réutilisable via <b>Vagrant Cloud</b></li>
 </ul>
 
 ---
 
-## 2. 🧱 Infrastructure Architecture
+## 2. 🧱 Architecture de l’Infrastructure
 
 <div align="center">
 
 ```mermaid
 flowchart LR
-    A[USER] -- Public Network (192.168.1.0/24) --> B[WEB SERVER (Ubuntu)]
-    B -- Private Network (192.168.56.0/24) --> C[DATABASE (CentOS)]
-    C -- Port 3307 (host) --> D[Physical Machine]
+    A[UTILISATEUR] -- Réseau Public (192.168.1.0/24) --> B[WEB SERVER (Ubuntu)]
+    B -- Réseau Privé (192.168.56.0/24) --> C[DATABASE (CentOS)]
+    C -- Port 3307 (hôte) --> D[Machine Physique]
 ```
 
 </div>
 
 ---
 
-## 3. 📁 Project Structure
+## 3. 📁 Structure du Projet
 
 ```text
-project-infra-simple/
+projet-infra-simple/
 ├── Vagrantfile
 ├── scripts/
 │   ├── provision-web-ubuntu.sh
 │   └── provision-db-centos.sh
 ├── website/
-│   └── (site cloned from GitHub)
+│   └── (site cloné depuis GitHub)
 ├── database/
 │   ├── create-table.sql
 │   └── insert-demo-data.sql
@@ -77,11 +76,11 @@ project-infra-simple/
 
 ---
 
-## 4. ⚙️ Vagrantfile Configuration
+## 4. ⚙️ Configuration du Vagrantfile
 
 ```ruby
 Vagrant.configure("2") do |config|
-  # Web Server (Ubuntu)
+  # Machine Web Server (Ubuntu)
   config.vm.define "web-server" do |web|
     web.vm.box = "ubuntu/bionic64"
     web.vm.hostname = "web-server"
@@ -91,7 +90,7 @@ Vagrant.configure("2") do |config|
     web.vm.provision "shell", path: "scripts/provision-web-ubuntu.sh"
   end
 
-  # Database Server (CentOS)
+  # Machine Database Server (CentOS)
   config.vm.define "db-server" do |db|
     db.vm.box = "centos/stream9"
     db.vm.hostname = "db-server"
@@ -104,7 +103,7 @@ end
 
 ---
 
-## 5. 🔧 Automated Provisioning
+## 5. 🔧 Provisioning Automatisé
 
 <table>
   <tr>
@@ -115,9 +114,9 @@ end
     <td><code>scripts/provision-web-ubuntu.sh</code></td>
     <td>
       <ul>
-        <li>Installs <b>Nginx</b></li>
-        <li>Clones a <b>GitHub</b> repository containing a static site</li>
-        <li>Copies the site to <code>/var/www/html</code></li>
+        <li>Installe <b>Nginx</b></li>
+        <li>Clone un dépôt <b>GitHub</b> contenant un site statique</li>
+        <li>Copie le site dans <code>/var/www/html</code></li>
       </ul>
     </td>
   </tr>
@@ -125,9 +124,9 @@ end
     <td><code>scripts/provision-db-centos.sh</code></td>
     <td>
       <ul>
-        <li>Installs <b>MySQL 8.0</b></li>
-        <li>Creates a <code>demo_db</code> database and a <code>users</code> table</li>
-        <li>Inserts test data via:
+        <li>Installe <b>MySQL 8.0</b></li>
+        <li>Crée une base <code>demo_db</code> et une table <code>users</code></li>
+        <li>Insère des données de test via :
           <ul>
             <li><code>database/create-table.sql</code></li>
             <li><code>database/insert-demo-data.sql</code></li>
@@ -140,49 +139,49 @@ end
 
 ---
 
-## 6. 🌐 Networking & Access
+## 6. 🌐 Réseaux et Accès
 
 <table>
   <tr>
     <th>Machine</th>
-    <th>Private IP</th>
-    <th>Public IP</th>
+    <th>IP Privée</th>
+    <th>IP Publique</th>
     <th>Port Forwarding</th>
-    <th>Access</th>
+    <th>Accès</th>
   </tr>
   <tr>
     <td><code>web-server</code></td>
     <td>192.168.56.10</td>
-    <td>Automatic DHCP</td>
+    <td>DHCP automatique</td>
     <td>-</td>
-    <td>Browser, SSH</td>
+    <td>Navigateur, SSH</td>
   </tr>
   <tr>
     <td><code>db-server</code></td>
     <td>192.168.56.20</td>
     <td>-</td>
-    <td>3307 (host) → 3306</td>
+    <td>3307 (hôte) → 3306</td>
     <td>MySQL via <code>localhost:3307</code></td>
   </tr>
 </table>
 
 ---
 
-## 7. 🧪 Testing & Validation
+## 7. 🧪 Tests & Validation
 
 <ul>
-  <li>✅ <code>vagrant up</code> starts both VMs without error</li>
-  <li>✅ The website is accessible via the public IP of <code>web-server</code></li>
-  <li>✅ MySQL connection possible via <code>mysql -h 127.0.0.1 -P 3307</code></li>
-  <li>✅ Test data is present in <code>users</code></li>
-  <li>✅ No manual intervention needed thanks to provisioning</li>
+  <li>✅ <code>vagrant up</code> démarre les deux VMs sans erreur</li>
+  <li>✅ Le site web est accessible via l’IP publique de <code>web-server</code></li>
+  <li>✅ Connexion MySQL possible via <code>mysql -h 127.0.0.1 -P 3307</code></li>
+  <li>✅ Les données de test sont présentes dans <code>users</code></li>
+  <li>✅ Aucun besoin d’intervention manuelle grâce au provisioning</li>
 </ul>
 
 ---
 
 ## 8. 📦 Distribution via Vagrant Cloud
 
-### 🔹 Clean up the machines
+### 🔹 Nettoyage des machines
 
 ```bash
 vagrant ssh web-server
@@ -190,22 +189,22 @@ sudo apt clean && sudo rm -rf /var/log/*
 exit
 ```
 
-### 🔹 Package the boxes
+### 🔹 Packager les boxes
 ```bash
 vagrant package web-server --output ubuntu-web.box
 vagrant package db-server --output centos-db.box
 ```
 
-### 🔹 Publish on Vagrant Cloud
+### 🔹 Publier sur Vagrant Cloud
 
-1. Create an account: <a href="https://app.vagrantup.com/" target="_blank">https://app.vagrantup.com/</a>
-2. Upload your <code>.box</code> files
-3. Fill in the metadata:
-   - Name: <code>username/ubuntu-web-server</code>
-   - Name: <code>username/centos-mysql-db</code>
+1. Créez un compte : <a href="https://app.vagrantup.com/" target="_blank">https://app.vagrantup.com/</a>
+2. Uploadez vos <code>.box</code>
+3. Renseignez les métadonnées :
+   - Nom : <code>username/ubuntu-web-server</code>
+   - Nom : <code>username/centos-mysql-db</code>
    - OS, version, description
 
-### 🔹 Test the box on another machine
+### 🔹 Tester la box sur un autre poste
 ```bash
 vagrant init username/ubuntu-web-server
 vagrant up
@@ -213,188 +212,155 @@ vagrant up
 
 ---
 
-## 8.1 📦 Official Vagrant Cloud Boxes
+## 9. 💡 Exemples d’Utilisation
 
-<table>
-  <tr>
-    <th>Box Name</th>
-    <th>Description</th>
-    <th>Version</th>
-    <th>Visibility</th>
-    <th>Version Description</th>
-    <th>Link</th>
-  </tr>
-  <tr>
-    <td><code>omardbaa-simplon-t4s-devops/ubuntu-web-server</code></td>
-    <td>Preconfigured Ubuntu 22.04 LTS web server with Nginx for a deployed CRUD web app</td>
-    <td>1.0.0</td>
-    <td>Public</td>
-    <td>Initial release (v1.0.0) of the Ubuntu web server box. Includes Ubuntu 22.04 LTS with Nginx</td>
-    <td><a href="https://app.vagrantup.com/omardbaa-simplon-t4s-devops/boxes/ubuntu-web-server" target="_blank">View on Vagrant Cloud</a></td>
-  </tr>
-  <tr>
-    <td><code>omardbaa-simplon-t4s-devops/centos-mysql-db</code></td>
-    <td>MySQL server running on CentOS 9, configured via Vagrant for quick deployment.</td>
-    <td>1.0.0</td>
-    <td>Public</td>
-    <td>Initial release (v1.0.0) of the CentOS 9 Stream MySQL server box. Includes MySQL 8.0 installed and secured.</td>
-    <td><a href="https://app.vagrantup.com/omardbaa-simplon-t4s-devops/boxes/centos-mysql-db" target="_blank">View on Vagrant Cloud</a></td>
-  </tr>
-</table>
-
----
-
-## 9. 💡 Usage Examples
-
-🔸 <b>Quick Demo (Web)</b>
+🔸 <b>Démo rapide (Web)</b>
 ```bash
 vagrant init username/ubuntu-web-server
 vagrant up
 ```
 
-🔸 <b>Connect to MySQL</b>
+🔸 <b>Connexion à MySQL</b>
 ```bash
 mysql -h 127.0.0.1 -P 3307 -u root -p
 ```
 
-🔸 <b>Local Development</b>
+🔸 <b>Développement local</b>
 
-Connect a web application to MySQL via <code>localhost:3307</code>
-
----
-
-## 9.1 🔥 Advanced Usage & Tips
-
-- <b>Customizing the Web App:</b> Edit files in <code>website/simple-web-app/</code> and reload Nginx or restart the VM to see changes.
-- <b>Database Credentials:</b> Default MySQL user is <code>root</code> with password set during provisioning (see <code>provision-db-centos.sh</code> for details).
-- <b>Logs:</b> Web server logs are in <code>website/logs/</code> (synced to <code>/var/www/html/logs/</code> in the VM). MySQL logs are in <code>/var/log/mysqld.log</code> inside the DB VM.
-- <b>Backup/Restore:</b> Use <code>mysqldump</code> and <code>mysql</code> commands inside the DB VM for database backup and restore.
-- <b>Updating Boxes:</b> Run <code>vagrant box update</code> to get the latest base images.
-- <b>Recommended Plugins:</b> <code>vagrant-vbguest</code> (for VirtualBox Guest Additions), <code>vagrant-disksize</code> (for resizing disks).
-- <b>Multi-VM Commands:</b> Use <code>vagrant status</code>, <code>vagrant halt</code>, <code>vagrant reload</code>, <code>vagrant destroy</code> to manage all VMs at once.
-- <b>SSH Access:</b> <code>vagrant ssh web-server</code> or <code>vagrant ssh db-server</code> to access each VM.
+Connecter une application web à MySQL via <code>localhost:3307</code>
 
 ---
 
-## 10. ❓ FAQ & Troubleshooting
+## 9.1 🔥 Utilisation avancée & Astuces
+
+- <b>Personnalisation du site web :</b> Modifiez les fichiers dans <code>website/simple-web-app/</code> et rechargez Nginx ou redémarrez la VM pour voir les changements.
+- <b>Identifiants MySQL :</b> L'utilisateur par défaut est <code>root</code> avec le mot de passe défini dans <code>provision-db-centos.sh</code>.
+- <b>Logs :</b> Les logs du serveur web sont dans <code>website/logs/</code> (synchro avec <code>/var/www/html/logs/</code> dans la VM). Les logs MySQL sont dans <code>/var/log/mysqld.log</code> dans la VM DB.
+- <b>Sauvegarde/Restaurer :</b> Utilisez <code>mysqldump</code> et <code>mysql</code> dans la VM DB pour sauvegarder/restaurer la base.
+- <b>Mise à jour des boxes :</b> <code>vagrant box update</code> pour obtenir les dernières images.
+- <b>Plugins recommandés :</b> <code>vagrant-vbguest</code> (VirtualBox Guest Additions), <code>vagrant-disksize</code> (redimensionnement disque).
+- <b>Commandes multi-VM :</b> <code>vagrant status</code>, <code>vagrant halt</code>, <code>vagrant reload</code>, <code>vagrant destroy</code> pour gérer toutes les VMs.
+- <b>Accès SSH :</b> <code>vagrant ssh web-server</code> ou <code>vagrant ssh db-server</code>.
+
+---
+
+## 10. ❓ FAQ & Dépannage
 
 <details>
-<summary>🧩 <b>The site does not display?</b></summary>
+<summary>🧩 <b>Le site ne s’affiche pas ?</b></summary>
 
-- Check Nginx:
+- Vérifier Nginx :
   ```bash
   sudo systemctl status nginx
   sudo systemctl restart nginx
   ```
-- Check the public IP:
+- Vérifier l’IP publique :
   ```bash
   vagrant ssh web-server
   ip a
   ```
-- Ensure the <code>website/</code> folder is synced and contains an <code>index.html</code>.
-- Check firewall settings on your host and guest.
-- Try <code>vagrant reload web-server --provision</code> to re-run provisioning.
+- Vérifier que le dossier <code>website/</code> est bien synchronisé et contient un <code>index.html</code>.
+- Vérifier les pare-feux sur l’hôte et la VM.
+- Essayez <code>vagrant reload web-server --provision</code> pour relancer le provisioning.
 </details>
 
 <details>
-<summary>🧩 <b>Cannot connect to MySQL?</b></summary>
+<summary>🧩 <b>Impossible de se connecter à MySQL ?</b></summary>
 
-- Test the connection:
+- Tester la connexion :
   ```bash
   mysql -h 127.0.0.1 -P 3307 -u root -p
   ```
-- Restart MySQL:
+- Redémarrer MySQL :
   ```bash
   sudo systemctl restart mysqld
   ```
-- Check MySQL logs:
+- Consulter les logs MySQL :
   ```bash
   sudo cat /var/log/mysqld.log
   ```
-- Ensure port 3307 is not blocked by your host firewall.
-- If port 3307 is in use, change the <code>Vagrantfile</code> to use another port (e.g., 3308).
+- Vérifier que le port 3307 n’est pas bloqué par le pare-feu de l’hôte.
+- Si le port 3307 est déjà utilisé, modifiez le <code>Vagrantfile</code> (ex : 3308).
 </details>
 
 <details>
-<summary>🧩 <b>Provisioning fails or scripts do not complete?</b></summary>
+<summary>🧩 <b>Le provisioning échoue ou les scripts ne s’exécutent pas ?</b></summary>
 
-- Check the output of <code>vagrant up</code> for errors.
-- Ensure you have a stable internet connection (for package installs and git clone).
-- Try <code>vagrant reload --provision</code> to re-run provisioning scripts.
-- Make sure scripts are executable: <code>chmod +x scripts/*.sh</code>.
-- On Windows, use Git Bash or WSL for better shell compatibility.
+- Vérifiez la sortie de <code>vagrant up</code> pour les erreurs.
+- Assurez-vous d’avoir une connexion internet stable (pour apt/yum et git clone).
+- Essayez <code>vagrant reload --provision</code> pour relancer les scripts.
+- Rendez les scripts exécutables : <code>chmod +x scripts/*.sh</code>.
+- Sous Windows, privilégiez Git Bash ou WSL pour une meilleure compatibilité shell.
 </details>
 
 <details>
-<summary>🧩 <b>SSH connection issues?</b></summary>
+<summary>🧩 <b>Problèmes de connexion SSH ?</b></summary>
 
-- Use <code>vagrant ssh web-server</code> or <code>vagrant ssh db-server</code>.
-- If SSH fails, try <code>vagrant reload</code> or <code>vagrant halt && vagrant up</code>.
-- Check your virtualization software (VirtualBox, VMware, etc.) is up to date.
+- Utilisez <code>vagrant ssh web-server</code> ou <code>vagrant ssh db-server</code>.
+- Si SSH échoue, essayez <code>vagrant reload</code> ou <code>vagrant halt && vagrant up</code>.
+- Vérifiez que votre hyperviseur (VirtualBox, VMware, etc.) est à jour.
 </details>
 
 <details>
-<summary>🧩 <b>Networking issues (no internet in VM, can't access services)?</b></summary>
+<summary>🧩 <b>Problèmes réseau (pas d’internet dans la VM, services inaccessibles) ?</b></summary>
 
-- Restart the VM: <code>vagrant reload</code>.
-- Check your host's network adapter settings.
-- Try switching between <code>public_network</code> and <code>private_network</code> in the <code>Vagrantfile</code>.
-- Disable VPNs or firewalls that may block VM traffic.
+- Redémarrez la VM : <code>vagrant reload</code>.
+- Vérifiez la configuration réseau de l’hôte.
+- Essayez d’alterner entre <code>public_network</code> et <code>private_network</code> dans le <code>Vagrantfile</code>.
+- Désactivez VPN ou pare-feu qui pourraient bloquer le trafic.
 </details>
 
 <details>
-<summary>🧩 <b>Windows-specific issues?</b></summary>
+<summary>🧩 <b>Problèmes spécifiques à Windows ?</b></summary>
 
-- Run your terminal as Administrator.
-- Use forward slashes (<code>/</code>) in paths in the <code>Vagrantfile</code>.
-- If file sync fails, check for OneDrive or antivirus interference.
-- Use WSL or Git Bash for better shell script compatibility.
+- Lancez le terminal en mode administrateur.
+- Utilisez des slashs (<code>/</code>) dans les chemins du <code>Vagrantfile</code>.
+- Si la synchronisation échoue, vérifiez OneDrive ou l’antivirus.
+- Privilégiez WSL ou Git Bash pour les scripts shell.
 </details>
 
 <details>
-<summary>🧩 <b>How to reset everything?</b></summary>
+<summary>🧩 <b>Comment tout réinitialiser ?</b></summary>
 
-- Destroy all VMs and start fresh:
+- Détruire toutes les VMs et repartir de zéro :
   ```bash
   vagrant destroy -f
   vagrant up
   ```
-- Remove old boxes if needed:
+- Supprimer les anciennes boxes si besoin :
   ```bash
   vagrant box list
-  vagrant box remove <box-name>
+  vagrant box remove <nom-box>
   ```
 </details>
 
 <details>
-<summary>🧩 <b>Best practices for security and development?</b></summary>
+<summary>🧩 <b>Bonnes pratiques sécurité et développement ?</b></summary>
 
-- Change default passwords after first boot.
-- Do not expose VMs to the public internet unless necessary.
-- Use version control (git) for your <code>website/</code> and <code>database/</code> folders.
-- Regularly backup your database and web files.
-- Use <code>vagrant snapshot</code> to save VM states before major changes.
+- Changez les mots de passe par défaut après le premier démarrage.
+- N’exposez pas les VMs sur Internet sauf nécessité.
+- Versionnez vos dossiers <code>website/</code> et <code>database/</code> avec git.
+- Sauvegardez régulièrement la base et les fichiers web.
+- Utilisez <code>vagrant snapshot</code> avant toute modification majeure.
 </details>
 
 ---
 
-## 11. 👤 Author & References
+## 11. 👤 Auteur & Références
 
 <ul>
-  <li><b>Author:</b> [Your Name]</li>
-  <li><b>Project GitHub:</b> <a href="https://github.com/your-username/project-infra-simple" target="_blank">https://github.com/your-username/project-infra-simple</a></li>
+  <li><b>Auteur :</b> OMAR DBAA</li>
+  <li><b>GitHub du projet :</b> <a href="https://github.com/omardbaa/projet-infra" target="_blank">https://github.com/omardbaa/projet-infra</a></li>
 </ul>
 
 <details>
-<summary>📦 <b>Vagrant Cloud Boxes</b></summary>
+<summary>📦 <b>Boxes Vagrant Cloud</b></summary>
 
-- Web Server: <a href="https://app.vagrantup.com/omardbaa-simplon-t4s-devops/boxes/ubuntu-web-server" target="_blank">omardbaa-simplon-t4s-devops/ubuntu-web-server</a>
-  <br><small>Preconfigured Ubuntu 22.04 LTS web server with Nginx for a deployed CRUD web app (v1.0.0)</small>
-- DB Server: <a href="https://app.vagrantup.com/omardbaa-simplon-t4s-devops/boxes/centos-mysql-db" target="_blank">omardbaa-simplon-t4s-devops/centos-mysql-db</a>
-  <br><small>MySQL server running on CentOS 9, configured via Vagrant for quick deployment (v1.0.0)</small>
+- Web Server : <a href="https://app.vagrantup.com/username/ubuntu-web-server" target="_blank">https://app.vagrantup.com/username/ubuntu-web-server</a>
+- DB Server : <a href="https://app.vagrantup.com/username/centos-mysql-db" target="_blank">https://app.vagrantup.com/username/centos-mysql-db</a>
 
 </details>
 
 ---
 
-<sub>📝 Project provided for educational purposes. Reuse allowed with author attribution.</sub>
+<sub>📝 Projet fourni à des fins pédagogiques. Réutilisation autorisée avec mention de l’auteur.</sub>
