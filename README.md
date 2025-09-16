@@ -47,12 +47,24 @@
 
 <div align="center">
 
-```mermaid
-flowchart LR
-    A[UTILISATEUR] -- Réseau Public (192.168.1.0/24) --> B[WEB SERVER (Ubuntu)]
-    B -- Réseau Privé (192.168.56.0/24) --> C[DATABASE (CentOS)]
-    C -- Port 3307 (hôte) --> D[Machine Physique]
-```
+    ┌───────────────┐      🌐 Réseau Public (192.168.1.0/24)      ┌─────────────────┐
+    │   🧑‍💻 UTILISATEUR   │ ────────────────────────────────────▶ │  🖥️ WEB SERVER  │
+    │               │                                             │    (Ubuntu)      │
+    └───────────────┘                                             └───────────┬─────┘
+                                                                        │
+                                                   🔐 Réseau Privé (192.168.56.0/24)
+                                                                        │
+                      🖧 Machine Physique  (Port 3307)                  │
+                              ▲                                         │
+                              └─────────────────────────────────────────┼─────────┐
+                                                                        │         │
+                                                                ┌───────▼───────┐
+                                                                │  🗄️ DATABASE  │
+                                                                │   (CentOS)    │
+                                                                └───────────────┘
+
+
+
 
 </div>
 
